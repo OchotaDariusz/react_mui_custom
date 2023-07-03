@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+  transition: background 250ms ease-in-out, color 125ms ease-out;
+  scroll-behavior: smooth !important;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

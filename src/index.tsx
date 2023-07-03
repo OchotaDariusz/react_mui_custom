@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { Provider } from 'react-redux';
+
+import { ThemeWrapper } from './components';
+import { store } from './store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -8,11 +11,16 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import './sass/style.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <ThemeWrapper>
+        <App />
+      </ThemeWrapper>
+    </Provider>
   </React.StrictMode>
 );
 

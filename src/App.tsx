@@ -1,22 +1,23 @@
-import React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+import React, { useContext, useEffect } from 'react';
+import { useTheme } from '@mui/material';
 
-import logo from './logo.svg';
+import { ThemeContext } from './context';
+import MainLayout from './layout/MainLayout';
+
 import './App.css';
 
 function App() {
+  const themeContext = useContext(ThemeContext);
+  const theme = useTheme();
+
+  useEffect(() => {
+    console.log(themeContext.mode);
+    console.log(theme.palette.mode);
+  }, [themeContext.mode, theme.palette.mode]);
+
   return (
-    <div className="App">
-      <CssBaseline enableColorScheme />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
+    <div>
+      <MainLayout />
     </div>
   );
 }
