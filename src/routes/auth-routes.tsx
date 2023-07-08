@@ -1,4 +1,5 @@
 import { Outlet, Navigate } from 'react-router-dom';
+import { LoginPage, RegisterPage } from '../pages';
 
 const AuthRoutes = [
   {
@@ -11,11 +12,11 @@ const AuthRoutes = [
       },
       {
         path: '/auth/login',
-        element: <div>login</div>
+        element: <LoginPage />
       },
       {
         path: '/auth/register',
-        element: <div>registration</div>
+        element: <RegisterPage />
       }
     ]
   }

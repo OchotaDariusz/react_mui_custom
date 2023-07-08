@@ -1,10 +1,13 @@
 import React from 'react';
 import { Box, ListItem, ListItemButton, type Theme, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-export const NavMenuItem = (props: { icon: JSX.Element; label: string }) => {
+export const NavMenuItem = (props: { icon: JSX.Element; label: string; routePath: string }) => {
   return (
     <ListItem component="li" disablePadding>
       <ListItemButton
+        component={Link}
+        to={props.routePath}
         sx={{
           margin: '.25em .5em .25em .5em',
           borderRadius: (theme: Theme) => theme.shape.borderRadius

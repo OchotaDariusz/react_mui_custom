@@ -19,6 +19,7 @@ import { styled } from '@mui/material/styles';
 
 import { BackToTopButton, SearchBox } from '../../components';
 import { AccountControl } from '../../components/account-control/AccountControl';
+import { Link } from 'react-router-dom';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -99,8 +100,12 @@ const Header = (props: { open: boolean; onClick: () => void }) => {
       onClose={handleMenuClose}
       sx={{ marginTop: '40px' }}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/account/profile">Profile</Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/account">My account</Link>
+      </MenuItem>
     </Menu>
   );
 
@@ -138,15 +143,17 @@ const Header = (props: { open: boolean; onClick: () => void }) => {
         <p>Notifications</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
+        <Link to="/account/profile">
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </Link>
         <p>Profile</p>
       </MenuItem>
     </Menu>
