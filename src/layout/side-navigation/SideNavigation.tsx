@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 
 import { ThemeSwitchButton, NavMenu } from '../../components';
 import { ThemeContext } from '../../context';
+import { toast } from 'react-toastify';
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
   '& .MuiPaper-root': {
@@ -28,6 +29,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const SideNavigation = (props: { open: boolean; onClick: () => void }) => {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
+  const handleToggle = () => {
+    themeContext.toggleMode();
+    toast.success(`Switched from ${themeContext.mode} mode!`);
+  };
 
   return (
     <Drawer variant="permanent" open={props.open}>
@@ -40,7 +45,7 @@ const SideNavigation = (props: { open: boolean; onClick: () => void }) => {
           px: [1]
         }}
       >
-        <ThemeSwitchButton onToggle={themeContext.toggleMode} theme={theme} />
+        <ThemeSwitchButton onToggle={handleToggle} theme={theme} />
       </Toolbar>
       <NavMenu />
       <Divider />

@@ -20,6 +20,7 @@ import { styled } from '@mui/material/styles';
 import { BackToTopButton, SearchBox } from '../../components';
 import { AccountControl } from '../../components/account-control/AccountControl';
 import { Link } from 'react-router-dom';
+// import SearchBar from '../../components/search-box/SearchBar';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -170,6 +171,7 @@ const Header = (props: { open: boolean; onClick: () => void }) => {
         >
           <DrawerButton onClick={props.onClick} open={props.open} />
           <SearchBox />
+          {/* <SearchBar /> */}
           <AccountControl
             ariaControls={menuId}
             onClick={handleProfileMenuOpen}

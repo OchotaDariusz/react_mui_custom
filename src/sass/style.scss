@@ -1,3 +1,19 @@
+@use './themes-vars.module.scss' as themeVars;
+
+:root {
+  --toastify-color-light: themeVars.$paper !important;
+  //--toastify-color-dark: themeVars.$darkPaper !important;
+  //--toastify-color-info: themeVars.$infoMain !important;
+  --toastify-color-success: themeVars.$successMain !important;
+  --toastify-color-warning: themeVars.$warningMain !important;
+  --toastify-color-error: themeVars.$errorMain !important;
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+}
+
 * {
   box-sizing: border-box;
   transition: background 250ms ease-in-out, color 125ms ease-out;
@@ -10,4 +26,23 @@ body {
   backface-visibility: hidden;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.Toastify__toast-theme {
+
+  &--dark {
+    background: themeVars.$darkPaper;
+    color: themeVars.$darkTextPrimary;
+  }
+
+  &--light {
+      background: themeVars.$paper;
+      color: themeVars.$textPrimary;
+  }
+
 }
