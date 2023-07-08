@@ -1,6 +1,7 @@
 {
   "name": "react_mui_custom",
   "version": "0.1.0",
+  "homepage": "https://ochotadariusz.github.io/react_mui_custom/",
   "private": true,
   "dependencies": {
     "@fontsource/roboto": "^5.0.3",
@@ -23,6 +24,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
@@ -63,6 +66,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
+    "gh-pages": "^5.0.0",
     "prettier": "2.8.8",
     "sass": "^1.63.6",
     "typescript": "<5.1.6"

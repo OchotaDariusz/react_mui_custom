@@ -46,7 +46,7 @@ export const AccountControl = (props: {
           <AccountCircle />
         </IconButton>
       </Box>
-      <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+      <Box sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end', width: '100%', flex: 1 }}>
         <IconButton
           size="large"
           aria-label="show more"
@@ -58,7 +58,8 @@ export const AccountControl = (props: {
           <MoreIcon
             sx={{
               marginLeft: '.5em',
-              marginRight: '-.5em'
+              marginRight: '-.5em',
+              color: 'text.primary'
             }}
           />
         </IconButton>

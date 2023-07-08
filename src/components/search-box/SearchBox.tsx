@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  flexGrow: 1,
+  flex: 11,
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.common.black, 0.15),
   '&:hover': {
@@ -20,7 +20,7 @@ const Search = styled('div')(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
-    width: 'auto',
+    width: '100%',
     display: 'block'
   },
   [theme.breakpoints.down('sm')]: {

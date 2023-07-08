@@ -38,13 +38,9 @@ export const RegisterPage = () => {
   };
 
   const textChangeHandler = () => {
-    return (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    return (_e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       console.log('textChangeHandler');
     };
-    // handleTextChange(
-    //   dispatch as React.Dispatch<ReducerAction<FormEventHandler>>,
-    //   e
-    // );
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

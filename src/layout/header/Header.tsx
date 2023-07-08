@@ -171,7 +171,6 @@ const Header = (props: { open: boolean; onClick: () => void }) => {
         >
           <DrawerButton onClick={props.onClick} open={props.open} />
           <SearchBox />
-          {/* <SearchBar /> */}
           <AccountControl
             ariaControls={menuId}
             onClick={handleProfileMenuOpen}

@@ -1,12 +1,12 @@
 @use './themes-vars.module.scss' as themeVars;
 
 :root {
-  --toastify-color-light: themeVars.$paper !important;
-  //--toastify-color-dark: themeVars.$darkPaper !important;
-  //--toastify-color-info: themeVars.$infoMain !important;
-  --toastify-color-success: themeVars.$successMain !important;
-  --toastify-color-warning: themeVars.$warningMain !important;
-  --toastify-color-error: themeVars.$errorMain !important;
+  --toastify-color-light: #F5F5FF !important;
+  --toastify-color-dark: #1A284E !important;
+  --toastify-color-info: #82C7FF !important;
+  --toastify-color-success: #00a152 !important;
+  --toastify-color-warning: #ffc107 !important;
+  --toastify-color-error: #f44336 !important;
   --toastify-color-transparent: rgba(255, 255, 255, 0.7);
   --toastify-icon-color-info: var(--toastify-color-info);
   --toastify-icon-color-success: var(--toastify-color-success);
