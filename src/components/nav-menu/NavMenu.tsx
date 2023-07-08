@@ -35,8 +35,9 @@ export const NavMenu = () => {
       component="nav"
       elevation={0}
       sx={{
-        minHeight: '100%',
-        overflowY: 'hidden',
+        minHeight: '100vh',
+        height: '100%',
+        overflow: 'hidden',
         borderRadius: 0,
         transition: theme.transitions.create('background-color', {
           easing: 'ease-in-out',
