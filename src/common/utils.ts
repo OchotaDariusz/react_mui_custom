@@ -1,3 +1,5 @@
+import type { Dispatch, FormEvent, FormEventHandler, ReducerAction } from 'react';
+
 export const setCookie = (cookieName: string, cookieValue: string, expirationTime?: number): void => {
   const expirationDays = 365;
   const date = new Date();
@@ -22,4 +24,15 @@ export const getCookieValue = (cookieName: string): string | null => {
   }
 
   return null;
+};
+
+export const handleTextChange = (
+  dispatch: Dispatch<ReducerAction<FormEventHandler>>,
+  e: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  dispatch({
+    type: 'GET_TEXT',
+    field: (e.target as HTMLInputElement).name,
+    payload: (e.target as HTMLInputElement).value
+  });
 };

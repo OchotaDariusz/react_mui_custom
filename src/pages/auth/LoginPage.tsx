@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
@@ -12,81 +12,89 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { handleTextChange } from '../../common/utils';
+import formReducer from '../../reducers/form-reducer';
+import type { AuthState, LoginRequest } from '../../common/types';
+import { useAppDispatch, useAppSelector, useFetch } from '../../hooks';
+import { HttpMethod } from '../../common/constants';
+import { axiosInstance } from '../../common/axios.config';
+import { login } from '../../store/slice/auth-slice';
 // import { toast } from 'react-toastify';
 
-// const initialLoginFormState = {
-//   email: '',
-//   password: ''
-// };
+const initialLoginFormState = {
+  email: '',
+  password: ''
+};
 
 export const LoginPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [isCheckboxSelected, setIsCheckboxSelected] = useState(false);
-  // const [formState, dispatch] = useReducer(signFormReducer, initialLoginFormState);
+  const [formState, dispatch] = useReducer(formReducer, initialLoginFormState);
+  const appDispatch = useAppDispatch();
+  const authState = useAppSelector((state) => state.auth);
   // const authDispatch = useDispatch();
   // const navigate = useNavigate();
+
+  const {
+    error,
+    isLoading,
+    data,
+    dataFetcher: sendRequest
+  } = useFetch<{ accessToken: string }, LoginRequest>({
+    url: '/auth/login',
+    method: HttpMethod.POST,
+    data: {}
+  });
+
+  useEffect(() => {
+    if (error === null && !isLoading && data !== null) {
+      console.log(data);
+      axiosInstance
+        .get('/auth/current', {
+          headers: {
+            Authorization: `Bearer ${data.accessToken}`
+          }
+        })
+        .then((response) => {
+          console.log(response.data);
+          appDispatch(login(response.data as AuthState));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [error, isLoading, data]);
+
+  useEffect(() => {
+    console.log(authState);
+  }, [authState]);
 
   const handleCheckbox = () => {
     setIsCheckboxSelected((prevState) => !prevState);
   };
 
   const textChangeHandler = () => {
-    return (_e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      console.log('textChangeHandler');
+    return (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      handleTextChange(dispatch, e);
     };
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const loginRequest: LoginRequest = {
-    //   username: formState.email,
-    //   password: formState.password,
-    // };
-    setIsLoading(true);
-    // const toastId = toast.loading('Wait...');
-    // fetchData
-    //   .post('/api/auth/login', loginRequest)
-    //   .then(async (response) => {
-    //     if (JWT_LOCAL_STORAGE_KEY in response.data) {
-    //       localStorage.setItem(
-    //         JWT_LOCAL_STORAGE_KEY,
-    //         response.data.access_token
-    //       );
-    //     } else {
-    //       throw new Error('Login failed.');
-    //     }
-    //     try {
-    //       // const user: AxiosResponse<User> = await fetchData.get(
-    //       //   '/api/auth/current'
-    //       // );
-    //       // authDispatch(login(user.data));
-    //       navigate('/');
-    //       toast.update(toastId, {
-    //         render: 'Logged in.',
-    //         type: 'success',
-    //         isLoading: false,
-    //         closeOnClick: true,
-    //         autoClose: 3000,
-    //         closeButton: true,
-    //       });
-    //     } catch (_err) {
-    //       throw new Error("There's no such user.");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     toast.update(toastId, {
-    //       render: 'Something went wrong!',
-    //       type: 'error',
-    //       isLoading: false,
-    //       closeOnClick: true,
-    //       autoClose: 3000,
-    //       closeButton: true,
-    //     });
-    //     toast.error(err.message);
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    sendRequest({
+      email: formState.email,
+      password: formState.password
+    })
+      .then((response) => {
+        console.log(data);
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
+      .finally(() => {
+        console.log('finally');
+        console.log(formState);
+      });
   };
 
   return (
@@ -117,7 +125,7 @@ export const LoginPage = () => {
             autoComplete="email"
             autoFocus
             onChange={textChangeHandler()}
-            // value={formState.email}
+            value={formState.email}
             data-cy="input-login-email"
           />
           <TextField
@@ -130,7 +138,7 @@ export const LoginPage = () => {
             id="password"
             autoComplete="current-password"
             onChange={textChangeHandler()}
-            // value={formState.password}
+            value={formState.password}
             data-cy="input-login-password"
           />
           <FormControlLabel

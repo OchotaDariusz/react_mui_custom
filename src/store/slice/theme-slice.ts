@@ -1,17 +1,20 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { setCookie } from '../../utils';
 
-const initialState: { mode: 'dark' | 'light' } = {
+import { setCookie } from '../../common/utils';
+import { THEME_MODE_LOCAL_STORAGE_KEY } from '../../common/constants';
+import type { ThemeMode } from '../../common/types';
+
+const initialState: { mode: ThemeMode } = {
   mode: 'light'
 };
 
 const themeSlice = createSlice({
-  name: 'theme',
+  name: THEME_MODE_LOCAL_STORAGE_KEY,
   initialState,
   reducers: {
-    toggleTheme: (state, action: PayloadAction<'dark' | 'light'>) => {
+    toggleTheme: (state, action: PayloadAction<ThemeMode>) => {
       const themeMode = action.payload;
-      setCookie('theme', themeMode);
+      setCookie(THEME_MODE_LOCAL_STORAGE_KEY, themeMode);
       state.mode = themeMode;
     }
   }

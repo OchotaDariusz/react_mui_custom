@@ -1,10 +1,11 @@
-import { Outlet, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { LoginPage, RegisterPage } from '../pages';
+import MainLayout from '../layout/MainLayout';
 
 const AuthRoutes = [
   {
     path: '/auth',
-    element: <Outlet />,
+    element: <MainLayout />,
     children: [
       {
         path: '/auth',
