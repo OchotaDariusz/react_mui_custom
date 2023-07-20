@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 // import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,13 +12,13 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { handleTextChange } from '../../common/utils';
+import { handleTextChange, setCookie } from '../../common/utils';
 import formReducer from '../../reducers/form-reducer';
-import type { AuthState, LoginRequest } from '../../common/types';
-import { useAppDispatch, useAppSelector, useFetch } from '../../hooks';
-import { HttpMethod } from '../../common/constants';
+import type { LoginRequest } from '../../common/types';
+import { useAppSelector, useFetch } from '../../hooks';
+import { HttpMethod, JWT_LOCAL_STORAGE_KEY } from '../../common/constants';
 import { axiosInstance } from '../../common/axios.config';
-import { login } from '../../store/slice/auth-slice';
+import { AuthContext } from '../../context';
 // import { toast } from 'react-toastify';
 
 const initialLoginFormState = {
@@ -29,10 +29,9 @@ const initialLoginFormState = {
 export const LoginPage = () => {
   const [isCheckboxSelected, setIsCheckboxSelected] = useState(false);
   const [formState, dispatch] = useReducer(formReducer, initialLoginFormState);
-  const appDispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
-  // const authDispatch = useDispatch();
-  // const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const {
     error,
@@ -48,6 +47,7 @@ export const LoginPage = () => {
   useEffect(() => {
     if (error === null && !isLoading && data !== null) {
       console.log(data);
+      setCookie(JWT_LOCAL_STORAGE_KEY, data.accessToken);
       axiosInstance
         .get('/auth/current', {
           headers: {
@@ -56,10 +56,12 @@ export const LoginPage = () => {
         })
         .then((response) => {
           console.log(response.data);
-          appDispatch(login(response.data as AuthState));
+          authCtx.login(response.data);
+          navigate('/');
         })
         .catch((err) => {
           console.log(err);
+          authCtx.logout();
         });
     }
   }, [error, isLoading, data]);

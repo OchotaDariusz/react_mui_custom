@@ -158,12 +158,12 @@ export interface User {
 
 // auth state types
 export interface AuthState {
-  isLoggedIn: boolean;
   id: string;
   email: string;
   firstName: string;
   lastName: string;
   roles: Role[];
+  sex: string;
 }
 
 // theme mode types

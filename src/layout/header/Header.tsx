@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   AppBar as MuiAppBar,
   type AppBarProps as MuiAppBarProps,
@@ -19,8 +19,8 @@ import { styled } from '@mui/material/styles';
 
 import { BackToTopButton, SearchBox } from '../../components';
 import { AccountControl } from '../../components/account-control/AccountControl';
-import { Link } from 'react-router-dom';
-// import SearchBar from '../../components/search-box/SearchBar';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -62,6 +62,8 @@ const DrawerButton = (props: { onClick: () => void; open: boolean }) => {
 const Header = (props: { open: boolean; onClick: () => void }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -83,6 +85,12 @@ const Header = (props: { open: boolean; onClick: () => void }) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {
+    handleMenuClose();
+    authCtx.logout();
+    navigate('/');
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -101,12 +109,26 @@ const Header = (props: { open: boolean; onClick: () => void }) => {
       onClose={handleMenuClose}
       sx={{ marginTop: '40px' }}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/account/profile">Profile</Link>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/account">My account</Link>
-      </MenuItem>
+      {!authCtx.isLoggedIn && (
+        <MenuItem onClick={handleMenuClose}>
+          <Link to="/auth/login">Login</Link>
+        </MenuItem>
+      )}
+      {authCtx.isLoggedIn && (
+        <MenuItem onClick={handleMenuClose}>
+          <Link to="/account/profile">Profile</Link>
+        </MenuItem>
+      )}
+      {authCtx.isLoggedIn && (
+        <MenuItem onClick={handleMenuClose}>
+          <Link to="/account">My account</Link>
+        </MenuItem>
+      )}
+      {authCtx.isLoggedIn && (
+        <MenuItem onClick={handleLogout}>
+          <p>Logout</p>
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -127,24 +149,35 @@ const Header = (props: { open: boolean; onClick: () => void }) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <Link to="/account/profile">
+      {!authCtx.isLoggedIn && (
+        <MenuItem onClick={handleMobileMenuClose}>
+          <Link to="/auth/login">
+            <p>Login</p>
+          </Link>
+        </MenuItem>
+      )}
+      {authCtx.isLoggedIn && (
+        <MenuItem onClick={handleMobileMenuClose}>
+          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={4} color="error">
+              <MailIcon />
+            </Badge>
+          </IconButton>
+          <p>Messages</p>
+        </MenuItem>
+      )}
+      {authCtx.isLoggedIn && (
+        <MenuItem onClick={handleMobileMenuClose}>
+          <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
+            <Badge badgeContent={17} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <p>Notifications</p>
+        </MenuItem>
+      )}
+      {authCtx.isLoggedIn && (
+        <MenuItem onClick={handleProfileMenuOpen}>
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -154,9 +187,9 @@ const Header = (props: { open: boolean; onClick: () => void }) => {
           >
             <AccountCircle />
           </IconButton>
-        </Link>
-        <p>Profile</p>
-      </MenuItem>
+          <p>Account</p>
+        </MenuItem>
+      )}
     </Menu>
   );
 

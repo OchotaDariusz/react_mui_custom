@@ -5,3 +5,4 @@ export * from './nav-menu/NavMenuItem';
 export * from './search-box/SearchBox';
 export * from './back-to-top-button/BackToTopButton';
 export * from './card/Card';
+export * from './auth-wrapper/AuthWrapper';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Badge, Box, IconButton, type Theme } from '@mui/material';
 import {
   AccountCircle,
@@ -6,6 +6,7 @@ import {
   MoreVert as MoreIcon,
   Notifications as NotificationsIcon
 } from '@mui/icons-material';
+import { AuthContext } from '../../context';
 
 export const AccountControl = (props: {
   ariaControls: string;
@@ -13,6 +14,8 @@ export const AccountControl = (props: {
   ariaMobileControls: string;
   onMobileClick: (event: React.MouseEvent<HTMLElement>) => void;
 }) => {
+  const authCtx = useContext(AuthContext);
+
   return (
     <>
       <Box
@@ -24,16 +27,20 @@ export const AccountControl = (props: {
           color: (theme: Theme) => theme.palette.text.primary
         }}
       >
-        <IconButton size="large" color="inherit">
-          <Badge badgeContent={4} aria-label="messages" color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <IconButton size="large" aria-label="notifications" color="inherit">
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
+        {authCtx.isLoggedIn && (
+          <>
+            <IconButton size="large" color="inherit">
+              <Badge badgeContent={4} aria-label="messages" color="error">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton size="large" aria-label="notifications" color="inherit">
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </>
+        )}
         <IconButton
           size="large"
           edge="end"

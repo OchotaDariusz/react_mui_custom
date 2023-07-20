@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
-import { ThemeWrapper } from './components';
+import { AuthWrapper, ThemeWrapper } from './components';
 import { store } from './store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -17,9 +17,11 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeWrapper>
-        <App />
-      </ThemeWrapper>
+      <AuthWrapper>
+        <ThemeWrapper>
+          <App />
+        </ThemeWrapper>
+      </AuthWrapper>
     </Provider>
   </React.StrictMode>
 );
