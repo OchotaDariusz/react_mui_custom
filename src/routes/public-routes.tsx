@@ -1,5 +1,8 @@
 import MainLayout from '../layout/MainLayout';
 import Dashboard from '../pages/dashboard/Dashboard';
+import { Navigate } from 'react-router-dom';
+import { LoginPage, RegisterPage } from '../pages';
+import { reverseAuthLoader as loader } from '../common/loaders';
 
 const PublicRoutes = [
   {
@@ -17,6 +20,24 @@ const PublicRoutes = [
       {
         path: '/contact',
         element: <div>Contact</div>
+      },
+      {
+        path: '/auth',
+        loader,
+        children: [
+          {
+            path: '/auth',
+            element: <Navigate to="/auth/login" />
+          },
+          {
+            path: '/auth/login',
+            element: <LoginPage />
+          },
+          {
+            path: '/auth/register',
+            element: <RegisterPage />
+          }
+        ]
       }
     ]
   }

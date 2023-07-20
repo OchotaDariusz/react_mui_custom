@@ -1,10 +1,13 @@
-import MainLayout from '../layout/MainLayout';
 import { Navigate } from 'react-router-dom';
+
+import MainLayout from '../layout/MainLayout';
+import loader from '../common/loaders';
 
 const UserRoutes = [
   {
     path: '/account',
     element: <MainLayout />,
+    loader,
     children: [
       {
         path: '/account',

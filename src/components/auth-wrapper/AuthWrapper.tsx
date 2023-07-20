@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { AuthContext } from '../../context';
 import { useAppDispatch } from '../../hooks';
 import { axiosInstance } from '../../common/axios.config';
-import { getCookieValue, setCookie } from '../../common/utils';
+import { setCookie } from '../../common/utils';
 import { login, logout } from '../../store/slice/auth-slice';
 import type { AuthState } from '../../common/types';
 import { JWT_LOCAL_STORAGE_KEY } from '../../common/constants';
@@ -23,11 +23,7 @@ export const AuthWrapper: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     axiosInstance
-      .get('/auth/current', {
-        headers: {
-          Authorization: `Bearer ${getCookieValue(JWT_LOCAL_STORAGE_KEY) ?? ''}`
-        }
-      })
+      .get('/auth/current')
       .then((response) => {
         ctxLogin(response.data as AuthState);
       })

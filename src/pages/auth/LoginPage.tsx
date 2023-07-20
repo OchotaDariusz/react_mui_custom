@@ -49,11 +49,7 @@ export const LoginPage = () => {
       console.log(data);
       setCookie(JWT_LOCAL_STORAGE_KEY, data.accessToken);
       axiosInstance
-        .get('/auth/current', {
-          headers: {
-            Authorization: `Bearer ${data.accessToken}`
-          }
-        })
+        .get('/auth/current')
         .then((response) => {
           console.log(response.data);
           authCtx.login(response.data);
